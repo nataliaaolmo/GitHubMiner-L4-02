@@ -1,10 +1,10 @@
-package GitHubMiner.proyectoAISS_GitHubMiner;
+package aiss.proyecto.githubminer;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class ProyectoAissGitHubMinerApplicationTests {
+class GitHubMinerApplicationTests {
 
 	@Test
 	void contextLoads() {
