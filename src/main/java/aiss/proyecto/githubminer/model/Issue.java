@@ -25,16 +25,44 @@ public class Issue {
     @JsonProperty("closed_at")
     private String closedAt;
     @JsonProperty("labels")
-    private List<Label> labels; // Pasarlo a GitMiner como label.name
+    private List<Label> labelList;
     @JsonProperty("number")
     private String ref_id;
     @JsonProperty("reactions")
-    private Reactions reactions; // Pasarlo a GitMiner como reactions.upvotes y reactions.downvotes
+    private Reactions reactions;
 
     private List<Comment> comments;
 
     private User author; // user
     private User asignee; // asignee
+
+    private List<String> labels = labelList.stream().map(l -> l.getName()).toList();
+    private Integer upvotes = reactions.getUpvotes();
+    private Integer downvotes = reactions.getDownvotes();
+
+    public List<String> getLabels() {
+        return labels;
+    }
+
+    public void setLabels(List<String> labels) {
+        this.labels = labels;
+    }
+
+    public Integer getUpvotes() {
+        return upvotes;
+    }
+
+    public void setUpvotes(Integer upvotes) {
+        this.upvotes = upvotes;
+    }
+
+    public Integer getDownvotes() {
+        return downvotes;
+    }
+
+    public void setDownvotes(Integer downvotes) {
+        this.downvotes = downvotes;
+    }
 
 //    private String projectId; // ¿repository_url?
 
@@ -94,12 +122,12 @@ public class Issue {
         this.closedAt = closedAt;
     }
 
-    public List<Label> getLabels() {
-        return labels;
+    public List<Label> getLabelList() {
+        return labelList;
     }
 
-    public void setLabels(List<Label> labels) {
-        this.labels = labels;
+    public void setLabelList(List<Label> labelList) {
+        this.labelList = labelList;
     }
 
     public String getRef_id() {
@@ -165,6 +193,8 @@ public class Issue {
                 ", comments=" + comments +
                 ", author=" + author +
                 ", asignee=" + asignee +
+                ", upvotes=" + upvotes +
+                ", downvotes=" + downvotes +
 //                ", projectId='" + projectId + '\'' +
                 '}';
     }
