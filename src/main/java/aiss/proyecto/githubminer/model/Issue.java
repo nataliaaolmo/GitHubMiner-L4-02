@@ -1,18 +1,20 @@
 package aiss.proyecto.githubminer.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.util.List;
 
 @SpringBootApplication
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Issue {
 
     @JsonProperty("id")
     private String id;
     @JsonProperty("title")
     private String title;
-    @JsonProperty("description")
+    @JsonProperty("body")
     private String description;
     @JsonProperty("state")
     private String state;
@@ -23,18 +25,18 @@ public class Issue {
     @JsonProperty("closed_at")
     private String closedAt;
     @JsonProperty("labels")
-    private List<String> labels;
-
-    // DUDA: ¿estos parámetros que no vienen en el json no van a dar error?
+    private List<Label> labels; // Pasarlo a GitMiner como label.name
+    @JsonProperty("number")
     private String ref_id;
+    @JsonProperty("reactions")
+    private Reactions reactions; // Pasarlo a GitMiner como reactions.upvotes y reactions.downvotes
+
     private List<Comment> comments;
-    private Integer upvotes;
-    private Integer downvotes;
 
-    private User author;
-    private User asignee;
+    private User author; // user
+    private User asignee; // asignee
 
-    private String projectId;
+//    private String projectId; // ¿repository_url?
 
     public String getId() {
         return id;
@@ -92,11 +94,11 @@ public class Issue {
         this.closedAt = closedAt;
     }
 
-    public List<String> getLabels() {
+    public List<Label> getLabels() {
         return labels;
     }
 
-    public void setLabels(List<String> labels) {
+    public void setLabels(List<Label> labels) {
         this.labels = labels;
     }
 
@@ -116,22 +118,6 @@ public class Issue {
         this.comments = comments;
     }
 
-    public Integer getUpvotes() {
-        return upvotes;
-    }
-
-    public void setUpvotes(Integer upvotes) {
-        this.upvotes = upvotes;
-    }
-
-    public Integer getDownvotes() {
-        return downvotes;
-    }
-
-    public void setDownvotes(Integer downvotes) {
-        this.downvotes = downvotes;
-    }
-
     public User getAuthor() {
         return author;
     }
@@ -148,12 +134,20 @@ public class Issue {
         this.asignee = asignee;
     }
 
-    public String getProjectId() {
-        return projectId;
+//    public String getProjectId() {
+//        return projectId;
+//    }
+//
+//    public void setProjectId(String projectId) {
+//        this.projectId = projectId;
+//    }
+
+    public Reactions getReactions() {
+        return reactions;
     }
 
-    public void setProjectId(String projectId) {
-        this.projectId = projectId;
+    public void setReactions(Reactions reactions) {
+        this.reactions = reactions;
     }
 
     @Override
@@ -169,11 +163,9 @@ public class Issue {
                 ", labels=" + labels +
                 ", ref_id='" + ref_id + '\'' +
                 ", comments=" + comments +
-                ", upvotes=" + upvotes +
-                ", downvotes=" + downvotes +
                 ", author=" + author +
                 ", asignee=" + asignee +
-                ", projectId='" + projectId + '\'' +
+//                ", projectId='" + projectId + '\'' +
                 '}';
     }
 
