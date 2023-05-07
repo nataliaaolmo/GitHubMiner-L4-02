@@ -1,23 +1,23 @@
 package aiss.proyecto.githubminer.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class User {
 
-    // DUDA: las propiedades como username que se llaman distinto en el json devuelto por github,
-    // ¿suponen un problema estar indicadas como JsonProperty?
     @JsonProperty("id")
     private String id;
-    @JsonProperty("username")
+    @JsonProperty("login")
     private String username;
     @JsonProperty("avatar_url")
     private String avatarUrl;
-    @JsonProperty("web_url")
+    @JsonProperty("url")
     private String web_url;
 
-    private String name;
+    private String name; // Debe estar vacío al pasarse a GitMiner
 
     public String getId() {
         return id;

@@ -1,9 +1,11 @@
 package aiss.proyecto.githubminer.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Comment {
 
     @JsonProperty("id")
@@ -15,8 +17,8 @@ public class Comment {
     @JsonProperty("updated_at")
     private String updatedAt;
 
-    private String issueId;
-    private User author;
+//    private String issueId; // ¿url?
+//    private User author; // user
 
     public String getId() {
         return id;
@@ -50,21 +52,21 @@ public class Comment {
         this.updatedAt = updatedAt;
     }
 
-    public String getIssueId() {
-        return issueId;
-    }
-
-    public void setIssueId(String issueId) {
-        this.issueId = issueId;
-    }
-
-    public User getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(User author) {
-        this.author = author;
-    }
+//    public String getIssueId() {
+//        return issueId;
+//    }
+//
+//    public void setIssueId(String issueId) {
+//        this.issueId = issueId;
+//    }
+//
+//    public User getAuthor() {
+//        return author;
+//    }
+//
+//    public void setAuthor(User author) {
+//        this.author = author;
+//    }
 
     @Override
     public String toString() {
@@ -73,8 +75,8 @@ public class Comment {
                 ", body='" + body + '\'' +
                 ", createdAt='" + createdAt + '\'' +
                 ", updatedAt='" + updatedAt + '\'' +
-                ", issueId='" + issueId + '\'' +
-                ", author=" + author +
+//                ", issueId='" + issueId + '\'' +
+//                ", author=" + author +
                 '}';
     }
 
