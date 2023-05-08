@@ -14,7 +14,7 @@ public class Project {
     private String id;
     @JsonProperty("name")
     private String name;
-    @JsonProperty("html_url")
+    @JsonProperty("url")
     private String web_url;
 
     private List<Commit> commits;
