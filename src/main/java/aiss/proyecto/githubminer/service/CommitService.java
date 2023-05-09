@@ -9,11 +9,12 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Arrays;
 import java.util.List;
-
+@Service
 public class CommitService {
     @Autowired
     RestTemplate restTemplate;
@@ -21,8 +22,8 @@ public class CommitService {
     private String token;
 
 
-    public List<Commit> findCommits(String id){
-        String uri = "https://api.github.com/repos/"+id+"/REPO/commits";
+    public List<Commit> findCommits(String owner, String repo){
+        String uri = "https://api.github.com/repos/"+owner+"/"+repo+"/commits";
         HttpHeaders headers = new HttpHeaders();
         //Setting token header
         if(token!=""){

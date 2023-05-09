@@ -17,7 +17,7 @@ public class CommitServiceTest {
     @Test
     @DisplayName("Get commits")
     void findCommit(){
-        List<Commit> commits = commitService.findCommits("MDY6Q29tbWl0NmRjYjA5YjViNTc4NzVmMzM0ZjYxYWViZWQ2OTVlMmU0MTkzZGI1ZQ==");
+        List<Commit> commits = commitService.findCommits("spring-projects", "spring-framework");
         assertTrue(commits.size()>0, "Wrong size");
     }
 }
