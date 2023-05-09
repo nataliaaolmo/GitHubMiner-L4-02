@@ -14,11 +14,19 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class CommentServiceTest {
     @Autowired
     CommentService commentService;
+
     @Test
-    @DisplayName("Get commit")
-    void findComment(){
-        List<Comment> comment = commentService.getAllRepositoryComments("spring-projects", "spring-framework");
+    @DisplayName("Get all comments of an issue")
+    void findAllIssueComments(){
+        List<Comment> comment = commentService.getAllRepositoryIssueComments("spring-projects", "spring-framework", "2");
         assertEquals(comment.size()>0, "Wrong size");
+    }
+
+    @Test
+    @DisplayName("Get one comment of an issue")
+    void findOneIssueComment() {
+        Comment comment = commentService.getOneRepositoryIssueComment("spring-projects", "spring-framework", "2", "1");
+        assertEquals(comment != null, "This comment does not exist");
     }
 
 }

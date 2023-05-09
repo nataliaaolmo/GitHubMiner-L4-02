@@ -22,6 +22,6 @@ public class UserServiceTest {
     @DisplayName("Get user")
     void findUser(){
         User user = userService.findUser("1");
-        assertEquals(user.getName(), "octocat", "Wrong name");
+        assertEquals(user.getLogin(), "octocat", "Wrong name");
     }
 }

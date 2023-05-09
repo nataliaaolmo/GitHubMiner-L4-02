@@ -1,6 +1,5 @@
 package aiss.proyecto.githubminer.exportmodel;
 
-import aiss.proyecto.githubminer.model.Comment;
 import aiss.proyecto.githubminer.model.User;
 
 import java.util.List;
@@ -19,7 +18,7 @@ public class IssueExport {
     private Integer upvotes;
     private Integer downvotes;
 
-    private List<Comment> comments;
+    private List<CommentExport> comments;
 
     private User asignee;
     private User author;
@@ -112,11 +111,11 @@ public class IssueExport {
         this.downvotes = downvotes;
     }
 
-    public List<Comment> getComments() {
+    public List<CommentExport> getComments() {
         return comments;
     }
 
-    public void setComments(List<Comment> comments) {
+    public void setComments(List<CommentExport> comments) {
         this.comments = comments;
     }
 
