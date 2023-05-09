@@ -1,16 +1,15 @@
 
 package aiss.proyecto.githubminer.model;
 
-import com.fasterxml.jackson.annotation.JsonAnyGetter;
-import com.fasterxml.jackson.annotation.JsonAnySetter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-
 import java.util.LinkedHashMap;
 import java.util.Map;
+import javax.annotation.Generated;
+
+import com.fasterxml.jackson.annotation.*;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Label {
 
     @JsonProperty("id")
@@ -21,12 +20,12 @@ public class Label {
     private String url;
     @JsonProperty("name")
     private String name;
-    @JsonProperty("description")
-    private String description;
     @JsonProperty("color")
     private String color;
     @JsonProperty("default")
     private Boolean _default;
+    @JsonProperty("description")
+    private String description;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new LinkedHashMap<String, Object>();
 
@@ -70,16 +69,6 @@ public class Label {
         this.name = name;
     }
 
-    @JsonProperty("description")
-    public String getDescription() {
-        return description;
-    }
-
-    @JsonProperty("description")
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     @JsonProperty("color")
     public String getColor() {
         return color;
@@ -98,6 +87,16 @@ public class Label {
     @JsonProperty("default")
     public void setDefault(Boolean _default) {
         this._default = _default;
+    }
+
+    @JsonProperty("description")
+    public String getDescription() {
+        return description;
+    }
+
+    @JsonProperty("description")
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     @JsonAnyGetter

@@ -1,5 +1,6 @@
 package aiss.proyecto.githubminer.service;
 
+import aiss.proyecto.githubminer.exportmodel.IssueExport;
 import aiss.proyecto.githubminer.model.Issue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -7,7 +8,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 

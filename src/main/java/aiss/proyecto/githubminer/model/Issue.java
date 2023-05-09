@@ -1,202 +1,401 @@
+
 package aiss.proyecto.githubminer.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+
+import aiss.proyecto.githubminer.exportmodel.UserExport;
+import com.fasterxml.jackson.annotation.*;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Issue {
 
+    @JsonProperty("url")
+    private String url;
+    @JsonProperty("repository_url")
+    private String repositoryUrl;
+    @JsonProperty("labels_url")
+    private String labelsUrl;
+    @JsonProperty("comments_url")
+    private String commentsUrl;
+    @JsonProperty("events_url")
+    private String eventsUrl;
+    @JsonProperty("html_url")
+    private String htmlUrl;
     @JsonProperty("id")
-    private String id;
+    private Integer id;
+    @JsonProperty("node_id")
+    private String nodeId;
+    @JsonProperty("number")
+    private Integer number;
     @JsonProperty("title")
     private String title;
-    @JsonProperty("body")
-    private String description;
+    @JsonProperty("user")
+    private UserExport user;
+    @JsonProperty("labels")
+    private List<Label> labels;
     @JsonProperty("state")
     private String state;
+    @JsonProperty("locked")
+    private Boolean locked;
+    @JsonProperty("assignee")
+    private Object assignee;
+    @JsonProperty("assignees")
+    private List<Object> assignees;
+    @JsonProperty("milestone")
+    private Object milestone;
+    @JsonProperty("comments")
+    private Integer comments;
     @JsonProperty("created_at")
     private String createdAt;
     @JsonProperty("updated_at")
     private String updatedAt;
     @JsonProperty("closed_at")
     private String closedAt;
-    @JsonProperty("labels")
-    private List<Label> labelList;
-    @JsonProperty("number")
-    private String ref_id;
+    @JsonProperty("author_association")
+    private String authorAssociation;
+    @JsonProperty("active_lock_reason")
+    private Object activeLockReason;
+    @JsonProperty("draft")
+    private Boolean draft;
+    @JsonProperty("pull_request")
+    private PullRequest pullRequest;
+    @JsonProperty("body")
+    private String body;
+    @JsonProperty("closed_by")
+    private ClosedBy closedBy;
     @JsonProperty("reactions")
     private Reactions reactions;
+    @JsonProperty("timeline_url")
+    private String timelineUrl;
+    @JsonProperty("performed_via_github_app")
+    private Object performedViaGithubApp;
+    @JsonProperty("state_reason")
+    private Object stateReason;
+    @JsonIgnore
+    private Map<String, Object> additionalProperties = new LinkedHashMap<String, Object>();
 
-    private List<Comment> comments;
-
-    private User author; // user
-    private User asignee; // asignee
-
-    private List<String> labels = labelList.stream().map(l -> l.getName()).toList();
-    private Integer upvotes = reactions.getUpvotes();
-    private Integer downvotes = reactions.getDownvotes();
-
-    public List<String> getLabels() {
-        return labels;
+    @JsonProperty("url")
+    public String getUrl() {
+        return url;
     }
 
-    public void setLabels(List<String> labels) {
-        this.labels = labels;
+    @JsonProperty("url")
+    public void setUrl(String url) {
+        this.url = url;
     }
 
-    public Integer getUpvotes() {
-        return upvotes;
+    @JsonProperty("repository_url")
+    public String getRepositoryUrl() {
+        return repositoryUrl;
     }
 
-    public void setUpvotes(Integer upvotes) {
-        this.upvotes = upvotes;
+    @JsonProperty("repository_url")
+    public void setRepositoryUrl(String repositoryUrl) {
+        this.repositoryUrl = repositoryUrl;
     }
 
-    public Integer getDownvotes() {
-        return downvotes;
+    @JsonProperty("labels_url")
+    public String getLabelsUrl() {
+        return labelsUrl;
     }
 
-    public void setDownvotes(Integer downvotes) {
-        this.downvotes = downvotes;
+    @JsonProperty("labels_url")
+    public void setLabelsUrl(String labelsUrl) {
+        this.labelsUrl = labelsUrl;
     }
 
-//    private String projectId; // ¿repository_url?
+    @JsonProperty("comments_url")
+    public String getCommentsUrl() {
+        return commentsUrl;
+    }
 
-    public String getId() {
+    @JsonProperty("comments_url")
+    public void setCommentsUrl(String commentsUrl) {
+        this.commentsUrl = commentsUrl;
+    }
+
+    @JsonProperty("events_url")
+    public String getEventsUrl() {
+        return eventsUrl;
+    }
+
+    @JsonProperty("events_url")
+    public void setEventsUrl(String eventsUrl) {
+        this.eventsUrl = eventsUrl;
+    }
+
+    @JsonProperty("html_url")
+    public String getHtmlUrl() {
+        return htmlUrl;
+    }
+
+    @JsonProperty("html_url")
+    public void setHtmlUrl(String htmlUrl) {
+        this.htmlUrl = htmlUrl;
+    }
+
+    @JsonProperty("id")
+    public Integer getId() {
         return id;
     }
 
-    public void setId(String id) {
+    @JsonProperty("id")
+    public void setId(Integer id) {
         this.id = id;
     }
 
+    @JsonProperty("node_id")
+    public String getNodeId() {
+        return nodeId;
+    }
+
+    @JsonProperty("node_id")
+    public void setNodeId(String nodeId) {
+        this.nodeId = nodeId;
+    }
+
+    @JsonProperty("number")
+    public Integer getNumber() {
+        return number;
+    }
+
+    @JsonProperty("number")
+    public void setNumber(Integer number) {
+        this.number = number;
+    }
+
+    @JsonProperty("title")
     public String getTitle() {
         return title;
     }
 
+    @JsonProperty("title")
     public void setTitle(String title) {
         this.title = title;
     }
 
-    public String getDescription() {
-        return description;
+    @JsonProperty("user")
+    public UserExport getUser() {
+        return user;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    @JsonProperty("user")
+    public void setUser(UserExport user) {
+        this.user = user;
     }
 
+    @JsonProperty("labels")
+    public List<Label> getLabels() {
+        return labels;
+    }
+
+    @JsonProperty("labels")
+    public void setLabels(List<Label> labels) {
+        this.labels = labels;
+    }
+
+    @JsonProperty("state")
     public String getState() {
         return state;
     }
 
+    @JsonProperty("state")
     public void setState(String state) {
         this.state = state;
     }
 
+    @JsonProperty("locked")
+    public Boolean getLocked() {
+        return locked;
+    }
+
+    @JsonProperty("locked")
+    public void setLocked(Boolean locked) {
+        this.locked = locked;
+    }
+
+    @JsonProperty("assignee")
+    public Object getAssignee() {
+        return assignee;
+    }
+
+    @JsonProperty("assignee")
+    public void setAssignee(Object assignee) {
+        this.assignee = assignee;
+    }
+
+    @JsonProperty("assignees")
+    public List<Object> getAssignees() {
+        return assignees;
+    }
+
+    @JsonProperty("assignees")
+    public void setAssignees(List<Object> assignees) {
+        this.assignees = assignees;
+    }
+
+    @JsonProperty("milestone")
+    public Object getMilestone() {
+        return milestone;
+    }
+
+    @JsonProperty("milestone")
+    public void setMilestone(Object milestone) {
+        this.milestone = milestone;
+    }
+
+    @JsonProperty("comments")
+    public Integer getComments() {
+        return comments;
+    }
+
+    @JsonProperty("comments")
+    public void setComments(Integer comments) {
+        this.comments = comments;
+    }
+
+    @JsonProperty("created_at")
     public String getCreatedAt() {
         return createdAt;
     }
 
+    @JsonProperty("created_at")
     public void setCreatedAt(String createdAt) {
         this.createdAt = createdAt;
     }
 
+    @JsonProperty("updated_at")
     public String getUpdatedAt() {
         return updatedAt;
     }
 
+    @JsonProperty("updated_at")
     public void setUpdatedAt(String updatedAt) {
         this.updatedAt = updatedAt;
     }
 
+    @JsonProperty("closed_at")
     public String getClosedAt() {
         return closedAt;
     }
 
+    @JsonProperty("closed_at")
     public void setClosedAt(String closedAt) {
         this.closedAt = closedAt;
     }
 
-    public List<Label> getLabelList() {
-        return labelList;
+    @JsonProperty("author_association")
+    public String getAuthorAssociation() {
+        return authorAssociation;
     }
 
-    public void setLabelList(List<Label> labelList) {
-        this.labelList = labelList;
+    @JsonProperty("author_association")
+    public void setAuthorAssociation(String authorAssociation) {
+        this.authorAssociation = authorAssociation;
     }
 
-    public String getRef_id() {
-        return ref_id;
+    @JsonProperty("active_lock_reason")
+    public Object getActiveLockReason() {
+        return activeLockReason;
     }
 
-    public void setRef_id(String ref_id) {
-        this.ref_id = ref_id;
+    @JsonProperty("active_lock_reason")
+    public void setActiveLockReason(Object activeLockReason) {
+        this.activeLockReason = activeLockReason;
     }
 
-    public List<Comment> getComments() {
-        return comments;
+    @JsonProperty("draft")
+    public Boolean getDraft() {
+        return draft;
     }
 
-    public void setComments(List<Comment> comments) {
-        this.comments = comments;
+    @JsonProperty("draft")
+    public void setDraft(Boolean draft) {
+        this.draft = draft;
     }
 
-    public User getAuthor() {
-        return author;
+    @JsonProperty("pull_request")
+    public PullRequest getPullRequest() {
+        return pullRequest;
     }
 
-    public void setAuthor(User author) {
-        this.author = author;
+    @JsonProperty("pull_request")
+    public void setPullRequest(PullRequest pullRequest) {
+        this.pullRequest = pullRequest;
     }
 
-    public User getAsignee() {
-        return asignee;
+    @JsonProperty("body")
+    public String getBody() {
+        return body;
     }
 
-    public void setAsignee(User asignee) {
-        this.asignee = asignee;
+    @JsonProperty("body")
+    public void setBody(String body) {
+        this.body = body;
     }
 
-//    public String getProjectId() {
-//        return projectId;
-//    }
-//
-//    public void setProjectId(String projectId) {
-//        this.projectId = projectId;
-//    }
+    @JsonProperty("closed_by")
+    public ClosedBy getClosedBy() {
+        return closedBy;
+    }
 
+    @JsonProperty("closed_by")
+    public void setClosedBy(ClosedBy closedBy) {
+        this.closedBy = closedBy;
+    }
+
+    @JsonProperty("reactions")
     public Reactions getReactions() {
         return reactions;
     }
 
+    @JsonProperty("reactions")
     public void setReactions(Reactions reactions) {
         this.reactions = reactions;
     }
 
-    @Override
-    public String toString() {
-        return "Issue{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", description='" + description + '\'' +
-                ", state='" + state + '\'' +
-                ", createdAt='" + createdAt + '\'' +
-                ", updatedAt='" + updatedAt + '\'' +
-                ", closedAt='" + closedAt + '\'' +
-                ", labels=" + labels +
-                ", ref_id='" + ref_id + '\'' +
-                ", comments=" + comments +
-                ", author=" + author +
-                ", asignee=" + asignee +
-                ", upvotes=" + upvotes +
-                ", downvotes=" + downvotes +
-//                ", projectId='" + projectId + '\'' +
-                '}';
+    @JsonProperty("timeline_url")
+    public String getTimelineUrl() {
+        return timelineUrl;
+    }
+
+    @JsonProperty("timeline_url")
+    public void setTimelineUrl(String timelineUrl) {
+        this.timelineUrl = timelineUrl;
+    }
+
+    @JsonProperty("performed_via_github_app")
+    public Object getPerformedViaGithubApp() {
+        return performedViaGithubApp;
+    }
+
+    @JsonProperty("performed_via_github_app")
+    public void setPerformedViaGithubApp(Object performedViaGithubApp) {
+        this.performedViaGithubApp = performedViaGithubApp;
+    }
+
+    @JsonProperty("state_reason")
+    public Object getStateReason() {
+        return stateReason;
+    }
+
+    @JsonProperty("state_reason")
+    public void setStateReason(Object stateReason) {
+        this.stateReason = stateReason;
+    }
+
+    @JsonAnyGetter
+    public Map<String, Object> getAdditionalProperties() {
+        return this.additionalProperties;
+    }
+
+    @JsonAnySetter
+    public void setAdditionalProperty(String name, Object value) {
+        this.additionalProperties.put(name, value);
     }
 
 }

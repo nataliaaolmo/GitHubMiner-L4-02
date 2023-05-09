@@ -1,5 +1,6 @@
 package aiss.proyecto.githubminer.service;
 
+import aiss.proyecto.githubminer.exportmodel.IssueExport;
 import aiss.proyecto.githubminer.model.Issue;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
