@@ -17,6 +17,7 @@ import java.util.List;
 
 @Service
 public class ProjectService {
+
     @Autowired
     RestTemplate restTemplate;
     CommentService commentService;
@@ -25,13 +26,16 @@ public class ProjectService {
 
     @Value("${githubminer.token}")
     private String token;
-    public Project  findProjects(String owner, String repo){
-        String uri = "https://api.github.com/repos/"+owner+"/"+repo+"/projects";
+
+    public Project findOneProject(String owner, String repo) {
+        String uri = "https://api.github.com/repos/" + owner + "/" + repo;
+
         HttpHeaders headers = new HttpHeaders();
         //Setting token header
         if(token!=""){
             headers.set("Authorization", "Bearer " + token);
         }
+
         //Send request
         HttpEntity<Project> request = new HttpEntity<>(null, headers);
         ResponseEntity<Project> response = restTemplate
@@ -39,9 +43,10 @@ public class ProjectService {
         return response.getBody();
     }
 
-    //los paramatreos van con path variable request param=?
+    // los paramatreos van con path variable request param=?
+    // Comprobar si hay que usar las clases de model o las de modelexport
     public Project getProjectService(String owner, String repo, List<Commit> commitsList, List<Issue> issuesList,
-                                     List<Comment> commentsList){
+                                     List<Comment> commentsList) {
         Project project= null;
         commitsList = commitService.findCommits(owner,repo);
         issuesList = issueService.getAllRepositoryIssues(owner,repo);

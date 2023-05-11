@@ -9,6 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
 public class CommentServiceTest {
@@ -18,15 +19,17 @@ public class CommentServiceTest {
     @Test
     @DisplayName("Get all comments of an issue")
     void findAllIssueComments(){
-        List<Comment> comment = commentService.getAllRepositoryIssueComments("spring-projects", "spring-framework", "2");
-        assertEquals(comment.size()>0, "Wrong size");
+        List<Comment> comment = commentService.getAllRepositoryIssueComments("mouredev", "Hello-Python", "12");
+        assertTrue(!comment.isEmpty(), "The list of comments is empty!");
+        System.out.println(comment);
     }
 
     @Test
     @DisplayName("Get one comment of an issue")
     void findOneIssueComment() {
-        Comment comment = commentService.getOneRepositoryIssueComment("spring-projects", "spring-framework", "2", "1");
-        assertEquals(comment != null, "This comment does not exist");
+        Comment comment = commentService.getOneRepositoryIssueComment("mouredev", "Hello-Python", "1531747732");
+        assertTrue(comment != null, "This comment does not exist");
+        System.out.println(comment);
     }
 
 }

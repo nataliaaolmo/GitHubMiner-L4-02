@@ -4,7 +4,10 @@ import aiss.proyecto.githubminer.exportmodel.IssueExport;
 import aiss.proyecto.githubminer.model.Issue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -19,8 +22,7 @@ public class IssueService {
     private String token;
 
     public List<Issue> getAllRepositoryIssues(String owner, String repo) {
-        Issue[] issues;
-        String uri = "https://api.github.com/" + owner + "/" + repo + "/issues";
+        String uri = "https://api.github.com/repos/" + owner + "/" + repo + "/issues";
 
         HttpHeaders headers = new HttpHeaders();
         //Setting token header
@@ -28,14 +30,15 @@ public class IssueService {
             headers.set("Authorization", "Bearer " + token);
         }
 
-        issues = restTemplate.getForObject(uri, Issue[].class);
+        // Send request
+        HttpEntity<List> request = new HttpEntity<>(null, headers);
+        ResponseEntity<List> response = restTemplate.exchange(uri, HttpMethod.GET, request, List.class);
 
-        return Arrays.stream(issues).toList();
+        return response.getBody();
     }
 
     public Issue getRepositoryIssueById(String owner, String repo, Integer id) {
-        Issue issue = null;
-        String uri = "https://api.github.com/" + owner + "/" + repo + "/issues/" + id.toString();
+        String uri = "https://api.github.com/repos/" + owner + "/" + repo + "/issues/" + id.toString();
 
         HttpHeaders headers = new HttpHeaders();
         //Setting token header
@@ -43,8 +46,11 @@ public class IssueService {
             headers.set("Authorization", "Bearer " + token);
         }
 
-        issue = restTemplate.getForObject(uri, Issue.class);
+        // Send request
+        HttpEntity<Issue> request = new HttpEntity<>(null, headers);
+        ResponseEntity<Issue> response = restTemplate
+                .exchange(uri, HttpMethod.GET, request, Issue.class);
 
-        return issue;
+        return response.getBody();
     }
 }

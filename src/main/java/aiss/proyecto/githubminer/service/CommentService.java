@@ -1,16 +1,15 @@
 package aiss.proyecto.githubminer.service;
 
-import aiss.proyecto.githubminer.exportmodel.CommentExport;
-
 import aiss.proyecto.githubminer.model.Comment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -24,22 +23,24 @@ public class CommentService {
 
     // https://api.github.com/repos/:OWNER/:REPO/issues/:issue_number/comments
     public List<Comment> getAllRepositoryIssueComments(String owner, String repo, String issueId) {
-        Comment[] comments;
         String uri = "https://api.github.com/repos/" + owner + "/" + repo + "/issues/" + issueId + "/comments";
 
         HttpHeaders headers = new HttpHeaders();
         // Setting token header
-        if (token!="")
+        if (token!="") {
             headers.set("Authorization", "Bearer " + token);
+        }
 
-        comments = restTemplate.getForObject(uri, Comment[].class);
+        // Send request
+        HttpEntity<List> request = new HttpEntity<>(null, headers);
+        ResponseEntity<List> response = restTemplate.exchange(uri, HttpMethod.GET, request, List.class);
 
-        return Arrays.stream(comments).toList();
+        return response.getBody();
     }
 
-    public Comment getOneRepositoryIssueComment(String owner, String repo, String issueId, String commentId) {
-        Comment comment = null;
-        String uri = "https://api.github.com/repos/" + owner + "/" + repo + "/issues/" + issueId + "/comments/" + commentId;
+    // https://api.github.com/repos/:OWNER/:REPO/issues/comments/:comment_id
+    public Comment getOneRepositoryIssueComment(String owner, String repo, String commentId) {
+        String uri = "https://api.github.com/repos/" + owner + "/" + repo + "/issues/comments/" + commentId;
 
         HttpHeaders headers = new HttpHeaders();
         //Setting token header
@@ -47,9 +48,12 @@ public class CommentService {
             headers.set("Authorization", "Bearer " + token);
         }
 
-        comment = restTemplate.getForObject(uri, Comment.class);
+        // Send request
+        HttpEntity<Comment> request = new HttpEntity<>(null, headers);
+        ResponseEntity<Comment> response = restTemplate
+                .exchange(uri, HttpMethod.GET, request, Comment.class);
 
-        return comment;
+        return response.getBody();
     }
 
 }
