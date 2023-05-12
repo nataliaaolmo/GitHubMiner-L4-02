@@ -14,14 +14,6 @@ public class CommentExport {
     private String issueId;
     private UserExport author;
 
-    /*public CommentExport(String id, String body, UserExport author, String createdAt, String updatedAt) {
-        this.id = id;
-        this.body = body;
-        this.author = author;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
-    }*/
-
     public CommentExport(String id, String body, String createdAt, String updatedAt,
                          String issueId, UserExport author) {
         this.id = id;

@@ -24,13 +24,13 @@ import static utilsPagination.UtilPag.getResponseEntity;
 public class CommitService {
 
     @Autowired
-    RestTemplate restTemplate;
+    static RestTemplate restTemplate;
 
     @Value("${githubminer.token}")
-    private String token;
+    private static String token;
 
     // GET https://api.github.com/repos/:owner/:repo/commits
-    public List<Commit> findCommits(String owner, String repo) {
+    public static List<Commit> findCommits(String owner, String repo) {
         String uri = "https://api.github.com/repos/" + owner + "/" + repo + "/commits";
 
         HttpHeaders headers = new HttpHeaders();

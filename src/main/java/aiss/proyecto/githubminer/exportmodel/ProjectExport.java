@@ -1,5 +1,8 @@
 package aiss.proyecto.githubminer.exportmodel;
 
+import aiss.proyecto.githubminer.model.Project;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class ProjectExport {
@@ -10,6 +13,25 @@ public class ProjectExport {
 
     List<CommitExport> commits;
     List<IssueExport> issues;
+
+    public ProjectExport(String id, String name, String web_url, List<CommitExport> commits,
+                         List<IssueExport> issues) {
+        this.id = id;
+        this.name = name;
+        this.web_url = web_url;
+        this.commits = commits;
+        this.issues = issues;
+    }
+
+    public static ProjectExport of(Project project) {
+        String id = project.getId().toString();
+        String name = project.getName();
+        String web_url = project.getUrl();
+        List<CommitExport> commits = new ArrayList<>();
+        List<IssueExport> issues = new ArrayList<>();
+
+        return new ProjectExport(id,name,web_url,commits,issues);
+    }
 
     public String getId() {
         return id;

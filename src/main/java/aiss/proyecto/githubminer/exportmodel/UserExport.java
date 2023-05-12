@@ -26,6 +26,7 @@ public class UserExport {
 
         return new UserExport(id,username,name,avatarUrl,web_url);
     }
+
     public String getId() {
         return id;
     }

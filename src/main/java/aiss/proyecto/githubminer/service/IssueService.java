@@ -26,14 +26,17 @@ import static utilsPagination.UtilPag.getResponseEntity;
 @Service
 public class IssueService {
     @Autowired
-    RestTemplate restTemplate;
+    static RestTemplate restTemplate;
+
     @Autowired
-    static
-    CommentService commentService;
+    static CommentService commentService;
+
     @Value("${githubminer.token}")
-    private String token;
+    private static String token;
+
     @GetMapping("/{owner}/{repo}")
-    public List<Issue> getAllRepositoryIssues(String owner, String repo) {
+
+    public static List<Issue> getAllRepositoryIssues(String owner, String repo) {
         String uri = "https://api.github.com/repos/" + owner + "/" + repo + "/issues";
 
         HttpHeaders headers = new HttpHeaders();
@@ -67,7 +70,8 @@ public class IssueService {
     }
 
     //conjunto de issues paginado
-    public List<Issue> groupAllIssues(String id,String owner, String repo, Integer sinceIssues, Integer maxPages) throws HttpClientErrorException {
+    public List<Issue> groupAllIssues(String id,String owner, String repo, Integer sinceIssues,
+                                             Integer maxPages) throws HttpClientErrorException {
         List<Issue> issues = new ArrayList<>();
         Integer defaultPages;
         String finalUri = "https://api.github.com/repos/" + owner + "/" + repo + "/issues/" + id.toString();

@@ -1,5 +1,6 @@
 package aiss.proyecto.githubminer.service;
 
+import aiss.proyecto.githubminer.exportmodel.ProjectExport;
 import aiss.proyecto.githubminer.model.Comment;
 import aiss.proyecto.githubminer.model.Commit;
 import aiss.proyecto.githubminer.model.Issue;
@@ -32,7 +33,7 @@ public class ProjectService {
 
         HttpHeaders headers = new HttpHeaders();
         //Setting token header
-        if(token!=""){
+        if(token!="") {
             headers.set("Authorization", "Bearer " + token);
         }
 
@@ -43,7 +44,7 @@ public class ProjectService {
         return response.getBody();
     }
 
-    // los paramatreos van con path variable request param=?
+    /*// los paramatreos van con path variable request param=?
     // Comprobar si hay que usar las clases de model o las de modelexport
     public Project getProjectService(String owner, String repo, List<Commit> commitsList, List<Issue> issuesList,
                                      List<Comment> commentsList) {
@@ -55,5 +56,19 @@ public class ProjectService {
         }
 
         return project;
+    }*/
+
+    public static ProjectExport parseListas(Project project) {
+        ProjectExport projectExport = ProjectExport.of(project);
+        projectExport.setIssues(IssueService
+                .getAllRepositoryIssues(project.getOwner().getLogin(), project.getName()).stream()
+                .map(i -> IssueService.parseoIssue(i, project.getOwner().getLogin(), project.getName(), 2))
+                .toList());
+        projectExport.setCommits(CommitService
+                .findCommits(project.getOwner().getLogin(), project.getName()).stream()
+                .map(c -> CommitService.parseoCommit(c)).toList());
+
+        return projectExport;
     }
+
 }
