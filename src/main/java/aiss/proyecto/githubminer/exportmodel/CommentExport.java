@@ -1,6 +1,8 @@
 package aiss.proyecto.githubminer.exportmodel;
 
+import aiss.proyecto.githubminer.model.Comment;
 import aiss.proyecto.githubminer.model.User;
+import aiss.proyecto.githubminer.service.CommentService;
 
 public class CommentExport {
 
@@ -10,7 +12,25 @@ public class CommentExport {
     private String updatedAt;
 
     private String issueId;
-    private User author;
+    private UserExport author;
+
+    /*public CommentExport(String id, String body, UserExport author, String createdAt, String updatedAt) {
+        this.id = id;
+        this.body = body;
+        this.author = author;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+    }*/
+
+    public CommentExport(String id, String body, String createdAt, String updatedAt,
+                         String issueId, UserExport author) {
+        this.id = id;
+        this.body = body;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.issueId = issueId;
+        this.author = author;
+    }
 
     public String getId() {
         return id;
@@ -52,11 +72,11 @@ public class CommentExport {
         this.issueId = issueId;
     }
 
-    public User getAuthor() {
+    public UserExport getAuthor() {
         return author;
     }
 
-    public void setAuthor(User author) {
+    public void setAuthor(UserExport author) {
         this.author = author;
     }
 }

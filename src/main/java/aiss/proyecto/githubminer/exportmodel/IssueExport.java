@@ -1,5 +1,6 @@
 package aiss.proyecto.githubminer.exportmodel;
 
+import aiss.proyecto.githubminer.model.Comment;
 import aiss.proyecto.githubminer.model.User;
 
 import java.util.List;
@@ -20,8 +21,30 @@ public class IssueExport {
 
     private List<CommentExport> comments;
 
-    private User asignee;
-    private User author;
+    private UserExport asignee;
+    private UserExport author;
+
+
+    public IssueExport(String id, String ref_id, String title, String description,
+                            String state, String createdAt, String updatedAt, String closedAt,
+                            List<String> labels, UserExport author, UserExport asignee, Integer upvotes,
+                            Integer downvotes,  List<CommentExport> comments) {
+        this.id = id;
+        this.ref_id = ref_id;
+        this.title = title;
+        this.description = description;
+        this.state = state;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.closedAt = closedAt;
+        this.labels = labels;
+        this.author = author;
+        this.asignee = asignee;
+        this.upvotes = upvotes;
+        this.downvotes = downvotes;
+
+        this.comments = comments;
+    }
 
     public String getId() {
         return id;
@@ -119,19 +142,19 @@ public class IssueExport {
         this.comments = comments;
     }
 
-    public User getAsignee() {
+    public UserExport getAsignee() {
         return asignee;
     }
 
-    public void setAsignee(User asignee) {
+    public void setAsignee(UserExport asignee) {
         this.asignee = asignee;
     }
 
-    public User getAuthor() {
+    public UserExport getAuthor() {
         return author;
     }
 
-    public void setAuthor(User author) {
+    public void setAuthor(UserExport author) {
         this.author = author;
     }
 

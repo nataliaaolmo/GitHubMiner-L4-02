@@ -1,5 +1,6 @@
 package aiss.proyecto.githubminer.service;
 
+import aiss.proyecto.githubminer.exportmodel.CommitExport;
 import aiss.proyecto.githubminer.model.Commit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -8,10 +9,16 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import static utilsPagination.UtilPag.getNextPageUrl;
+import static utilsPagination.UtilPag.getResponseEntity;
 
 @Service
 public class CommitService {
@@ -54,5 +61,55 @@ public class CommitService {
                 .exchange(uri, HttpMethod.GET, request, Commit.class);
         return response.getBody();
     }
+
+    //conjunto de commits paginados
+    public List<Commit> groupAllCommits(String owner, String repo, Integer since, Integer maxPages) throws HttpClientErrorException {
+        List<Commit> commits = new ArrayList<>();
+        Integer defaultPages;
+        String finalUri = "https://api.github.com/repos/" + owner + "/" + repo + "/commits";
+
+        if (since != null) {
+            finalUri += "?since=" + LocalDateTime.now().minusDays(since);
+        } else {
+            //añadimos 5 por defecto porque nos lo indica la uri
+            finalUri += "?since=" + LocalDateTime.now().minusDays(5);
+        }
+
+        ResponseEntity<Commit[]> response = getResponseEntity(finalUri, Commit[].class);
+        //paginamos commits
+        List<Commit> pageCommits = Arrays.stream(response.getBody()).toList();
+        commits.addAll(pageCommits);
+
+        //2..n pages
+        String nextPageURL = getNextPageUrl(response.getHeaders());
+
+        if(maxPages!=null){
+            defaultPages=maxPages;
+        }
+        else{
+            defaultPages=2;
+        }
+
+        int page = 2;
+        while (nextPageURL != null && page <= defaultPages) {
+            response = getResponseEntity(nextPageURL,Commit[].class);
+            pageCommits = Arrays.stream(response.getBody()).toList();
+            commits.addAll(pageCommits);
+
+            nextPageURL = getNextPageUrl(response.getHeaders());
+            page++;
+
+        }
+        return commits;
+
+    }
+    public static CommitExport parseoCommit(Commit commit){
+        return new CommitExport(commit.getSha(),commit.getCommit().getMessage(),commit.getCommit().getMessage(),
+                commit.getCommit().getAuthor().getName(), commit.getCommit().getAuthor().getEmail(), commit.getCommit().getAuthor().getDate(),
+                commit.getCommit().getCommitter().getName(), commit.getCommit().getCommitter().getEmail(), commit.getCommit().getCommitter().getDate(),
+                commit.getHtmlUrl());
+
+    }
+
 
 }

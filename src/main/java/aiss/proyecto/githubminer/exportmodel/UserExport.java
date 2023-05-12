@@ -1,5 +1,7 @@
 package aiss.proyecto.githubminer.exportmodel;
 
+import aiss.proyecto.githubminer.model.User;
+
 public class UserExport {
 
     private String id;
@@ -8,6 +10,22 @@ public class UserExport {
     private String avatarUrl;
     private String web_url;
 
+    public UserExport(String id, String username, String name, String avatarUrl, String web_url) {
+        this.id = id;
+        this.username=username;
+        this.avatarUrl=avatarUrl;
+        this.web_url=web_url;
+    }
+
+    public static UserExport of(User user) {
+        String id = user.getId().toString();
+        String username = user.getLogin();
+        String name = "";
+        String avatarUrl = user.getAvatarUrl();
+        String web_url = user.getUrl();
+
+        return new UserExport(id,username,name,avatarUrl,web_url);
+    }
     public String getId() {
         return id;
     }

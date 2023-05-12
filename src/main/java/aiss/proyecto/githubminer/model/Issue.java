@@ -34,7 +34,7 @@ public class Issue {
     @JsonProperty("title")
     private String title;
     @JsonProperty("user")
-    private UserExport user;
+    private User user;
     @JsonProperty("labels")
     private List<Label> labels;
     @JsonProperty("state")
@@ -42,7 +42,7 @@ public class Issue {
     @JsonProperty("locked")
     private Boolean locked;
     @JsonProperty("assignee")
-    private Object assignee;
+    private User assignee;
     @JsonProperty("assignees")
     private List<Object> assignees;
     @JsonProperty("milestone")
@@ -179,12 +179,12 @@ public class Issue {
     }
 
     @JsonProperty("user")
-    public UserExport getUser() {
+    public User getUser() {
         return user;
     }
 
     @JsonProperty("user")
-    public void setUser(UserExport user) {
+    public void setUser(User user) {
         this.user = user;
     }
 
@@ -219,12 +219,12 @@ public class Issue {
     }
 
     @JsonProperty("assignee")
-    public Object getAssignee() {
+    public User getAssignee() {
         return assignee;
     }
 
     @JsonProperty("assignee")
-    public void setAssignee(Object assignee) {
+    public void setAssignee(User assignee) {
         this.assignee = assignee;
     }
 
