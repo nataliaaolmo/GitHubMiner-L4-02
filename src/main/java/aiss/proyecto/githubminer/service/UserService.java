@@ -16,18 +16,22 @@ import java.util.List;
 
 @Service
 public class UserService {
+
     @Autowired
     RestTemplate restTemplate;
+
     @Value("${githubminer.token}")
     private String token;
 
-    public User findUser(String id){
-        String uri = "https://api.github.com/users/"+id;
+    public User findUser(String login) {
+        String uri = "https://api.github.com/users/" + login;
+
         HttpHeaders headers = new HttpHeaders();
         //Setting token header
         if(token!=""){
             headers.set("Authorization", "Bearer " + token);
         }
+
         //Send request
         HttpEntity<User> request = new HttpEntity<>(null, headers);
         ResponseEntity<User> response = restTemplate
