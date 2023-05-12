@@ -10,9 +10,8 @@ public class ProjectExport {
     private String id;
     private String name;
     private String web_url;
-
-    List<CommitExport> commits;
-    List<IssueExport> issues;
+    private List<CommitExport> commits;
+    private List<IssueExport> issues;
 
     public ProjectExport(String id, String name, String web_url, List<CommitExport> commits,
                          List<IssueExport> issues) {

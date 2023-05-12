@@ -18,7 +18,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import static utilsPagination.UtilPag.getNextPageUrl;
-import static utilsPagination.UtilPag.getResponseEntity;
 
 @Service
 public class CommentService {
@@ -118,6 +117,17 @@ public class CommentService {
         String[] trozos = issueURL.split("/");
         String id = trozos[7].trim();
         return id;
+    }
+    public ResponseEntity<Comment[]> getResponseEntity(String uri, Class<Comment[]> clase) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "Bearer " + token);
+
+        HttpEntity<Comment[]> request = new HttpEntity<>(null,headers);
+
+        return restTemplate.exchange(uri,
+                HttpMethod.GET,
+                request,
+                clase);
     }
 
 }

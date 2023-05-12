@@ -23,12 +23,13 @@ public class IssueExport {
 
     private UserExport asignee;
     private UserExport author;
+    private String projectId;
 
 
     public IssueExport(String id, String ref_id, String title, String description,
                             String state, String createdAt, String updatedAt, String closedAt,
                             List<String> labels, UserExport author, UserExport asignee, Integer upvotes,
-                            Integer downvotes,  List<CommentExport> comments) {
+                            Integer downvotes, String projectId, List<CommentExport> comments) {
         this.id = id;
         this.ref_id = ref_id;
         this.title = title;
@@ -44,6 +45,7 @@ public class IssueExport {
         this.downvotes = downvotes;
 
         this.comments = comments;
+        this.projectId = projectId;
     }
 
     public String getId() {
@@ -157,5 +159,10 @@ public class IssueExport {
     public void setAuthor(UserExport author) {
         this.author = author;
     }
-
+    public String getProjectId() {
+        return projectId;
+    }
+    public void setProjectId(String projectId) {
+        this.projectId = projectId;
+    }
 }

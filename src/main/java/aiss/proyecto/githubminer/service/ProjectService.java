@@ -1,9 +1,6 @@
 package aiss.proyecto.githubminer.service;
 
 import aiss.proyecto.githubminer.exportmodel.ProjectExport;
-import aiss.proyecto.githubminer.model.Comment;
-import aiss.proyecto.githubminer.model.Commit;
-import aiss.proyecto.githubminer.model.Issue;
 import aiss.proyecto.githubminer.model.Project;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,8 +18,13 @@ public class ProjectService {
 
     @Autowired
     RestTemplate restTemplate;
+    @Autowired
     CommentService commentService;
+
+    @Autowired
     CommitService commitService;
+
+    @Autowired
     IssueService issueService;
 
     @Value("${githubminer.token}")
@@ -58,17 +60,29 @@ public class ProjectService {
         return project;
     }*/
 
-    public static ProjectExport parseListas(Project project) {
+    public ProjectExport parseListas(Project project) {
         ProjectExport projectExport = ProjectExport.of(project);
-        projectExport.setIssues(IssueService
+        projectExport.setIssues(issueService
                 .getAllRepositoryIssues(project.getOwner().getLogin(), project.getName()).stream()
-                .map(i -> IssueService.parseoIssue(i, project.getOwner().getLogin(), project.getName(), 2))
+                .map(i -> issueService.parseoIssue(i, project.getOwner().getLogin(), project.getName(), 2))
                 .toList());
-        projectExport.setCommits(CommitService
+        projectExport.setCommits(commitService
                 .findCommits(project.getOwner().getLogin(), project.getName()).stream()
-                .map(c -> CommitService.parseoCommit(c)).toList());
+                .map(c -> commitService.parseoCommit(c)).toList());
 
         return projectExport;
+    }
+
+    public ResponseEntity<Project[]> getResponseEntity(String uri, Class<Project[]> clase) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "Bearer " + token);
+
+        HttpEntity<Project[]> request = new HttpEntity<>(null,headers);
+
+        return restTemplate.exchange(uri,
+                HttpMethod.GET,
+                request,
+                clase);
     }
 
 }

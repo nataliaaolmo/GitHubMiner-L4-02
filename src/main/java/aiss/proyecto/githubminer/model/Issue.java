@@ -26,11 +26,11 @@ public class Issue {
     @JsonProperty("html_url")
     private String htmlUrl;
     @JsonProperty("id")
-    private Integer id;
+    private String id;
     @JsonProperty("node_id")
     private String nodeId;
     @JsonProperty("number")
-    private Integer number;
+    private String number;
     @JsonProperty("title")
     private String title;
     @JsonProperty("user")
@@ -47,8 +47,6 @@ public class Issue {
     private List<Object> assignees;
     @JsonProperty("milestone")
     private Object milestone;
-    @JsonProperty("comments")
-    private Integer comments;
     @JsonProperty("created_at")
     private String createdAt;
     @JsonProperty("updated_at")
@@ -139,12 +137,12 @@ public class Issue {
     }
 
     @JsonProperty("id")
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
     @JsonProperty("id")
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -159,12 +157,12 @@ public class Issue {
     }
 
     @JsonProperty("number")
-    public Integer getNumber() {
+    public String getNumber() {
         return number;
     }
 
     @JsonProperty("number")
-    public void setNumber(Integer number) {
+    public void setNumber(String number) {
         this.number = number;
     }
 
@@ -246,16 +244,6 @@ public class Issue {
     @JsonProperty("milestone")
     public void setMilestone(Object milestone) {
         this.milestone = milestone;
-    }
-
-    @JsonProperty("comments")
-    public Integer getComments() {
-        return comments;
-    }
-
-    @JsonProperty("comments")
-    public void setComments(Integer comments) {
-        this.comments = comments;
     }
 
     @JsonProperty("created_at")

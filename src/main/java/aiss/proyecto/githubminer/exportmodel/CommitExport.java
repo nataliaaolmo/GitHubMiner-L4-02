@@ -16,7 +16,7 @@ public class CommitExport {
     private String projectId;
 
     public CommitExport(String id, String title, String message, String author_name, String author_email, String authored_date,
-                        String commiter_name, String commiter_email, String commited_date, String web_url) {
+                        String commiter_name, String commiter_email, String commited_date, String web_url, String projectId) {
         this.id=id;
         this.title=title;
         this.message=message;
@@ -27,6 +27,7 @@ public class CommitExport {
         this.commiter_email=commiter_email;
         this.commited_date=commited_date;
         this.web_url=web_url;
+        this.projectId=projectId;
     }
 
     public String getId() {

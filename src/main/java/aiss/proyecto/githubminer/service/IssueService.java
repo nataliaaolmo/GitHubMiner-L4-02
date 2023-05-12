@@ -21,22 +21,22 @@ import java.util.Arrays;
 import java.util.List;
 
 import static utilsPagination.UtilPag.getNextPageUrl;
-import static utilsPagination.UtilPag.getResponseEntity;
 
 @Service
 public class IssueService {
     @Autowired
-    static RestTemplate restTemplate;
-
+    RestTemplate restTemplate;
     @Autowired
-    static CommentService commentService;
+    CommentService commentService;
+    @Autowired
+    ProjectService projectService;
 
     @Value("${githubminer.token}")
-    private static String token;
+    private String token;
 
     @GetMapping("/{owner}/{repo}")
 
-    public static List<Issue> getAllRepositoryIssues(String owner, String repo) {
+    public List<Issue> getAllRepositoryIssues(String owner, String repo) {
         String uri = "https://api.github.com/repos/" + owner + "/" + repo + "/issues";
 
         HttpHeaders headers = new HttpHeaders();
@@ -70,11 +70,11 @@ public class IssueService {
     }
 
     //conjunto de issues paginado
-    public List<Issue> groupAllIssues(String id,String owner, String repo, Integer sinceIssues,
+    public List<Issue> groupAllIssues(String owner, String repo, Integer sinceIssues,
                                              Integer maxPages) throws HttpClientErrorException {
         List<Issue> issues = new ArrayList<>();
         Integer defaultPages;
-        String finalUri = "https://api.github.com/repos/" + owner + "/" + repo + "/issues/" + id.toString();
+        String finalUri = "https://api.github.com/repos/" + owner + "/" + repo + "/issues";
 
 
         if (sinceIssues != null) {
@@ -112,7 +112,7 @@ public class IssueService {
 
     //parseamos issues para añadirle los comentarios de esas issues. Además, a partir de la propiedad Author,
     // de Issue encontraremos los parámetros que necesitamos para User según el modelo de datos
-    public static IssueExport parseoIssue(Issue issue, String owner, String repo, Integer maxPages){
+    public IssueExport parseoIssue(Issue issue, String owner, String repo, Integer maxPages){
         String issueId = issue.getId().toString();
         String issueIid = issue.getNodeId().toString();
         String title = issue.getTitle();
@@ -123,21 +123,38 @@ public class IssueService {
         String closed_at = issue.getClosedAt();
         List<String> labels = issue.getLabels().stream().map(x->x.getName()).toList();
         //cogemos las propiedades que nos interesan según el modelo de User de una issue
-        UserExport author = new UserExport(issue.getUser().getId().toString(), issue.getUser().getLogin().toString(),issue.getUser().getLogin().toString(),issue.getUser().getAvatarUrl().toString(),issue.getUser().getUrl().toString());
+        UserExport author = new UserExport(issue.getUser().getId().toString(), issue.getUser().getLogin(),"",issue.getUser().getAvatarUrl(),issue.getUser().getUrl());
 
         //coger el primer assigne que tenemos en issue
-        UserExport assignee = issue.getAssignee()==null?null:new UserExport(issue.getAssignee().getId().toString(), issue.getAssignee().getLogin(), issue.getAssignee().getLogin(), issue.getAssignee().getAvatarUrl(), issue.getAssignee().getUrl());
-        //GitLabMinerUser assignee = null;
+        UserExport assignee = issue.getAssignee()==null?null:new UserExport(issue.getAssignee().getId().toString(), issue.getAssignee().getLogin(), "", issue.getAssignee().getAvatarUrl(), issue.getAssignee().getUrl());
+
         Integer upvotes = issue.getReactions().getPlus1();
         Integer downvotes = issue.getReactions().getMinus1();
-        List<CommentExport> comments= commentService.groupIssueComments(owner,repo,issue.getNumber().toString(),maxPages).stream().map(x-> CommentService.parseoComment(x)).toList();
+        List<CommentExport> comments = commentService.groupIssueComments(owner,repo,issue.getNumber().toString(),maxPages).stream().map(x-> CommentService.parseoComment(x)).toList();
 
+        String projectId = projectService.findOneProject(owner, repo).getId().toString();
 
-        return new IssueExport(issueId, issueIid, title, description, state, created_at, updated_at, closed_at, labels,
-                author,assignee,upvotes,downvotes, comments);
+        return new IssueExport(issueId, issueIid, title, description, state, created_at, updated_at, closed_at, labels, author, assignee, upvotes, downvotes, projectId, comments);
+    }
+
+    public static String parseProjectId(String projectURL) {
+        String[] trozos = projectURL.split("/");
+        String id = trozos[7].trim();
+        return id;
     }
 
 
+    public ResponseEntity<Issue[]> getResponseEntity(String uri, Class<Issue[]> clase) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "Bearer " + token);
+
+        HttpEntity<Issue[]> request = new HttpEntity<>(null,headers);
+
+        return restTemplate.exchange(uri,
+                HttpMethod.GET,
+                request,
+                clase);
+    }
 
 
 }

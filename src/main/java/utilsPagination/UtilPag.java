@@ -19,17 +19,6 @@ public class UtilPag {
 
     @Value("${gitlab-miner.token}")
     private static String token;
-    public static  <T1> ResponseEntity<T1[]> getResponseEntity(String uri, Class<T1[]> clase) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.set("PRIVATE-TOKEN", token);
-
-        HttpEntity<T1[]> request = new HttpEntity<>(null,headers);
-
-        return restTemplate.exchange(uri,
-                HttpMethod.GET,
-                request,
-                clase);
-    }
 
     public static String getNextPageUrl(HttpHeaders headers) {
         String result = null;

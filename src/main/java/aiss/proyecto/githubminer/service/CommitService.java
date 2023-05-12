@@ -18,26 +18,25 @@ import java.util.Arrays;
 import java.util.List;
 
 import static utilsPagination.UtilPag.getNextPageUrl;
-import static utilsPagination.UtilPag.getResponseEntity;
 
 @Service
 public class CommitService {
 
     @Autowired
-    static RestTemplate restTemplate;
+    RestTemplate restTemplate;
+    @Autowired
+    ProjectService projectService;
 
     @Value("${githubminer.token}")
-    private static String token;
+    private String token;
 
     // GET https://api.github.com/repos/:owner/:repo/commits
-    public static List<Commit> findCommits(String owner, String repo) {
+    public List<Commit> findCommits(String owner, String repo) {
         String uri = "https://api.github.com/repos/" + owner + "/" + repo + "/commits";
 
         HttpHeaders headers = new HttpHeaders();
         //Setting token header
-        if(token!="") {
-            headers.set("Authorization", "Bearer " + token);
-        }
+        headers.set("Authorization", "Bearer " + token);
 
         //Send request
         HttpEntity<List> request = new HttpEntity<>(null, headers);
@@ -103,12 +102,32 @@ public class CommitService {
         return commits;
 
     }
-    public static CommitExport parseoCommit(Commit commit){
-        return new CommitExport(commit.getSha(),commit.getCommit().getMessage(),commit.getCommit().getMessage(),
+    public CommitExport parseoCommit(Commit commit){
+        String[] url = new String[]{commit.getHtmlUrl(), "/"};
+
+        return new CommitExport(commit.getSha(), parseMessage(commit.getCommit().getMessage())[0], parseMessage(commit.getCommit().getMessage())[1],
                 commit.getCommit().getAuthor().getName(), commit.getCommit().getAuthor().getEmail(), commit.getCommit().getAuthor().getDate(),
                 commit.getCommit().getCommitter().getName(), commit.getCommit().getCommitter().getEmail(), commit.getCommit().getCommitter().getDate(),
-                commit.getHtmlUrl());
+                commit.getHtmlUrl(),"");
+    }
+    private static String[] parseMessage(String message){
+        String[] tittleMessage = new String[]{message,""};
+        if(message.contains("\n\n")){
+            tittleMessage = message.split("\\n\\n");
+        }
+        return tittleMessage;
+    }
 
+    public ResponseEntity<Commit[]> getResponseEntity(String uri, Class<Commit[]> clase) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "Bearer " + token);
+
+        HttpEntity<Commit[]> request = new HttpEntity<>(null,headers);
+
+        return restTemplate.exchange(uri,
+                HttpMethod.GET,
+                request,
+                clase);
     }
 
 
