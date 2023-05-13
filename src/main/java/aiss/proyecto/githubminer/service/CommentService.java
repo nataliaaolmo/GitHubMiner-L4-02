@@ -107,10 +107,9 @@ public class CommentService {
         String body = comment.getBody();
         String createdAt = comment.getCreatedAt();
         String updatedAt = comment.getCreatedAt();
-        String issueId = CommentService.parseIssueId(comment.getIssueUrl());
         UserExport author = UserExport.of(comment.getUser());
 
-        return new CommentExport(id,body,createdAt,updatedAt,issueId,author);
+        return new CommentExport(id,body,author,createdAt,updatedAt);
     }
     // https://api.github.com/repos/mouredev/Hello-Python/issues/12
     public static String parseIssueId(String issueURL) {

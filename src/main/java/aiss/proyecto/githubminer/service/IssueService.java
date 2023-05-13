@@ -28,8 +28,6 @@ public class IssueService {
     RestTemplate restTemplate;
     @Autowired
     CommentService commentService;
-    @Autowired
-    ProjectService projectService;
 
     @Value("${githubminer.token}")
     private String token;
@@ -96,7 +94,6 @@ public class IssueService {
         } else {
             defaultPages = 2;
         }
-
         int page = 2;
         while (nextPageURL != null && page <= defaultPages) {
             response = getResponseEntity(nextPageURL, Issue[].class);
@@ -122,27 +119,18 @@ public class IssueService {
         String updated_at = issue.getUpdatedAt();
         String closed_at = issue.getClosedAt();
         List<String> labels = issue.getLabels().stream().map(x->x.getName()).toList();
+
         //cogemos las propiedades que nos interesan según el modelo de User de una issue
         UserExport author = new UserExport(issue.getUser().getId().toString(), issue.getUser().getLogin(),"",issue.getUser().getAvatarUrl(),issue.getUser().getUrl());
-
         //coger el primer assigne que tenemos en issue
-        UserExport assignee = issue.getAssignee()==null?null:new UserExport(issue.getAssignee().getId().toString(), issue.getAssignee().getLogin(), "", issue.getAssignee().getAvatarUrl(), issue.getAssignee().getUrl());
 
+        UserExport assignee = issue.getAssignee()==null?null:new UserExport(issue.getAssignee().getId().toString(), issue.getAssignee().getLogin(), "", issue.getAssignee().getAvatarUrl(), issue.getAssignee().getUrl());
         Integer upvotes = issue.getReactions().getPlus1();
         Integer downvotes = issue.getReactions().getMinus1();
+        String webUrl = issue.getUrl();
         List<CommentExport> comments = commentService.groupIssueComments(owner,repo,issue.getNumber().toString(),maxPages).stream().map(x-> CommentService.parseoComment(x)).toList();
-
-        String projectId = projectService.findOneProject(owner, repo).getId().toString();
-
-        return new IssueExport(issueId, issueIid, title, description, state, created_at, updated_at, closed_at, labels, author, assignee, upvotes, downvotes, projectId, comments);
+        return new IssueExport(issueId, issueIid, title, description, state, created_at, updated_at, closed_at, labels, author, assignee, upvotes, downvotes, webUrl, comments);
     }
-
-    public static String parseProjectId(String projectURL) {
-        String[] trozos = projectURL.split("/");
-        String id = trozos[7].trim();
-        return id;
-    }
-
 
     public ResponseEntity<Issue[]> getResponseEntity(String uri, Class<Issue[]> clase) {
         HttpHeaders headers = new HttpHeaders();
@@ -155,6 +143,4 @@ public class IssueService {
                 request,
                 clase);
     }
-
-
 }

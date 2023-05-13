@@ -11,12 +11,10 @@ public class CommitExport {
     private String commiter_name;
     private String commiter_email;
     private String commited_date;
-    private String web_url;
-
-    private String projectId;
+    private String webUrl;
 
     public CommitExport(String id, String title, String message, String author_name, String author_email, String authored_date,
-                        String commiter_name, String commiter_email, String commited_date, String web_url, String projectId) {
+                        String commiter_name, String commiter_email, String commited_date, String webUrl) {
         this.id=id;
         this.title=title;
         this.message=message;
@@ -26,8 +24,7 @@ public class CommitExport {
         this.commiter_name=commiter_name;
         this.commiter_email=commiter_email;
         this.commited_date=commited_date;
-        this.web_url=web_url;
-        this.projectId=projectId;
+        this.webUrl=webUrl;
     }
 
     public String getId() {
@@ -102,20 +99,12 @@ public class CommitExport {
         this.commited_date = commited_date;
     }
 
-    public String getWeb_url() {
-        return web_url;
+    public String getWebUrl() {
+        return webUrl;
     }
 
-    public void setWeb_url(String web_url) {
-        this.web_url = web_url;
-    }
-
-    public String getProjectId() {
-        return projectId;
-    }
-
-    public void setProjectId(String projectId) {
-        this.projectId = projectId;
+    public void setWebUrl(String webUrl) {
+        this.webUrl = webUrl;
     }
 
 }

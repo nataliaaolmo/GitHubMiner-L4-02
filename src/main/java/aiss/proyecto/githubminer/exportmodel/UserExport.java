@@ -3,7 +3,6 @@ package aiss.proyecto.githubminer.exportmodel;
 import aiss.proyecto.githubminer.model.User;
 
 public class UserExport {
-
     private String id;
     private String username;
     private String name;
@@ -13,6 +12,7 @@ public class UserExport {
     public UserExport(String id, String username, String name, String avatarUrl, String web_url) {
         this.id = id;
         this.username=username;
+        this.name = name;
         this.avatarUrl=avatarUrl;
         this.web_url=web_url;
     }

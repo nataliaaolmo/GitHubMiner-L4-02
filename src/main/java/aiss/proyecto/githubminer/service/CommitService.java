@@ -24,8 +24,6 @@ public class CommitService {
 
     @Autowired
     RestTemplate restTemplate;
-    @Autowired
-    ProjectService projectService;
 
     @Value("${githubminer.token}")
     private String token;
@@ -108,7 +106,7 @@ public class CommitService {
         return new CommitExport(commit.getSha(), parseMessage(commit.getCommit().getMessage())[0], parseMessage(commit.getCommit().getMessage())[1],
                 commit.getCommit().getAuthor().getName(), commit.getCommit().getAuthor().getEmail(), commit.getCommit().getAuthor().getDate(),
                 commit.getCommit().getCommitter().getName(), commit.getCommit().getCommitter().getEmail(), commit.getCommit().getCommitter().getDate(),
-                commit.getHtmlUrl(),"");
+                commit.getHtmlUrl());
     }
     private static String[] parseMessage(String message){
         String[] tittleMessage = new String[]{message,""};

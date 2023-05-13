@@ -10,18 +10,14 @@ public class CommentExport {
     private String body;
     private String createdAt;
     private String updatedAt;
-
-    private String issueId;
     private UserExport author;
 
-    public CommentExport(String id, String body, String createdAt, String updatedAt,
-                         String issueId, UserExport author) {
+    public CommentExport(String id, String body,UserExport author, String createdAt, String updatedAt) {
         this.id = id;
         this.body = body;
+        this.author = author;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
-        this.issueId = issueId;
-        this.author = author;
     }
 
     public String getId() {
@@ -54,14 +50,6 @@ public class CommentExport {
 
     public void setUpdatedAt(String updatedAt) {
         this.updatedAt = updatedAt;
-    }
-
-    public String getIssueId() {
-        return issueId;
-    }
-
-    public void setIssueId(String issueId) {
-        this.issueId = issueId;
     }
 
     public UserExport getAuthor() {

@@ -1,5 +1,7 @@
 package aiss.proyecto.githubminer.service;
 
+import aiss.proyecto.githubminer.exportmodel.CommitExport;
+import aiss.proyecto.githubminer.exportmodel.IssueExport;
 import aiss.proyecto.githubminer.exportmodel.ProjectExport;
 import aiss.proyecto.githubminer.model.Project;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -59,19 +62,27 @@ public class ProjectService {
 
         return project;
     }*/
-
-    public ProjectExport parseListas(Project project) {
-        ProjectExport projectExport = ProjectExport.of(project);
-        projectExport.setIssues(issueService
-                .getAllRepositoryIssues(project.getOwner().getLogin(), project.getName()).stream()
-                .map(i -> issueService.parseoIssue(i, project.getOwner().getLogin(), project.getName(), 2))
-                .toList());
-        projectExport.setCommits(commitService
-                .findCommits(project.getOwner().getLogin(), project.getName()).stream()
-                .map(c -> commitService.parseoCommit(c)).toList());
-
-        return projectExport;
-    }
+//    public ProjectExport parseListas(Project project) {
+//        ProjectExport projectExport = of(project);
+//        projectExport.setIssues(issueService
+//                .getAllRepositoryIssues(project.getOwner().getLogin(), project.getName()).stream()
+//                .map(i -> issueService.parseoIssue(i, project.getOwner().getLogin(), project.getName(), 2))
+//                .toList());
+//        projectExport.setCommits(commitService
+//                .findCommits(project.getOwner().getLogin(), project.getName()).stream()
+//                .map(c -> commitService.parseoCommit(c)).toList());
+//
+//        return projectExport;
+//    }
+//    public ProjectExport of(Project project) {
+//        String id = project.getId().toString();
+//        String name = project.getName();
+//        String web_url = project.getUrl();
+//        List<CommitExport> commits = new ArrayList<>();
+//        List<IssueExport> issues = new ArrayList<>();
+//
+//        return new ProjectExport(id,name,web_url,commits,issues);
+//    }
 
     public ResponseEntity<Project[]> getResponseEntity(String uri, Class<Project[]> clase) {
         HttpHeaders headers = new HttpHeaders();
